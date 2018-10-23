@@ -1,48 +1,47 @@
-var canvas = document.querySelector("canvas");
-var ctx = canvas.getContext("2d");
-var height = ctx.canvas.height;
-var width = ctx.canvas.width;
-var startBtn = document.getElementById("startBtn");
-var gridSize = 20;
-var colSize = width / gridSize - 1;
-var rowSize = height / gridSize - 1;
-var apple;
-var snake;
-var gameInterval;
-var score = 0;
-var level = 1;
-var timeSpan = 10 *(1 + level);
-var obstacles = [];
-var obstacleNum = 3;
 
-var autoBtn = document.getElementById("autoBtn");
-// var bg;
-var bg = new Image();
-bg.src = "/images/bg.jpg";
-
-var newhead1 = new Image();
-newhead1.src = "/images/head-bottom.png"
-var newhead2 = new Image();
-newhead2.src = "/images/head-left.png"
-var newhead3 = new Image();
-newhead3.src = "/images/head-right.png"
-var newhead4 = new Image();
-newhead4.src = "/images/head-up.png"
-var trunk = new Image();
-trunk.src = "/images/obstacle.png"
 
 
 window.onload = function() {
     drawBg();
+   
     startBtn.onclick = function(){
-        drawingFirstElements();
-        gameInterval = setInterval(function(){
-            update();
-            console.log(timeSpan);
-        }, 2000/timeSpan)
-        document.onkeydown = function(e) {
-            var keycode = e.keyCode;
-            snake.dirChage(keycode);
+        if(startBtn.innerText == "Start Game"){
+            startBtn.innerText = "Stop Game" 
+            drawingFirstElements();
+            gameInterval = setInterval(function(){
+                update();
+            }, 2000/timeSpan)
+
+            if (pauseBtn.innerText == "Pause"){
+                document.onkeydown = function(e) {
+                    var keycode = e.keyCode;
+                    snake.dirChage(keycode);
+                }
+            }  
+        } else {
+            startBtn.innerText = "Start Game";
+            pauseBtn.innerText = "Pause";
+            clearInterval(gameInterval);
+            ctx.clearRect(0, 0, width, height);
+            drawBg();
+            console.log("but")
+        }
+    }
+
+    pauseBtn.onclick = function(){
+        if(startBtn.innerText == "Stop Game"){
+            console.log("btnText");
+            if(pauseBtn.innerText == "Pause"){
+                pauseBtn.innerText = "Continue";
+                clearInterval(gameInterval);
+            } else {
+                clearInterval(gameInterval);
+                pauseBtn.innerText = "Pause";
+                gameInterval = setInterval(function(){
+                    update();
+                    console.log(timeSpan);
+                }, 2000/timeSpan)                   
+            }
         }
     }
 
@@ -57,7 +56,7 @@ window.onload = function() {
 
 // draw the background, snake and apple in the canvas
 function drawBg(){
-        ctx.drawImage(bg, -340, -10, bg.width, bg.height);
+        ctx.drawImage(bg, -80, -10, bg.width, bg.height);
         drawGrids()
 }
 
@@ -99,7 +98,24 @@ function update(){
     if(gameOver()){
         clearInterval(gameInterval);
         ctx.clearRect(0, 0, width, height);
-        ctx.strokeText("Game Over", width/3, height/2)
+        
+        ctx.drawImage(gameOverImg, 0, 0, width, height)
+        if(storage.length < 10){
+            var counter = storage.length + 1;
+            storage.setItem("player" + counter , JSON.stringify(score))
+
+        }
+    }
+
+    if(winGame()){
+        clearInterval(gameInterval);
+        ctx.clearRect(0, 0, width, height);
+        
+        ctx.drawImage(gameWinImg, 0, 0, width, height)
+        if(storage.length < 10){
+            var counter = storage.length + 1;
+            storage.setItem("player" + counter , JSON.stringify(score))
+        }        
     }
 }
 
@@ -218,13 +234,13 @@ function eatApple() {
 function updateGrade(score){
     if(score > 10 && score < 21){
         level = 2;
-        timeSpan = 10 * (1 + level);
+        timeSpan = 15 * (1 + level);
         obstacleNum = 6;
         obstacleGen(obstacleNum, obstacles);
     } 
     if(score > 20){
         level = 3;
-        timeSpan = 10 * (1 + level);
+        timeSpan = 20 * (1 + level);
         obstacleNum = 10;
         obstacleGen(obstacleNum, obstacles);
     }
@@ -234,7 +250,6 @@ function updateGrade(score){
 function randomGenPos(rowSize, colSize, gridSize){
     var posX = Math.floor(Math.random()*colSize) * gridSize;
     var posY = Math.floor(Math.random()*rowSize) * gridSize;
-    console.log([posX, posY])
     return [posX, posY];
 }
 
@@ -253,7 +268,7 @@ function isTaken(x, y){
 
 
 
-// stop the game
+// stop game
 function gameOver(){
     // get the snake array
     var curSnake = snake.sArr();
@@ -275,4 +290,12 @@ function gameOver(){
         }
     }
     return flag;
+}
+
+// win game
+function winGame(){
+    if (score == 41){
+        return true;
+    } 
+    return false;
 }

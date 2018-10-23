@@ -43,10 +43,6 @@ class Snake{
         this.addBody();
         // remove the last body node
         this.snakeArr.splice(-1, 1);
-        // for(var i = 0; i < this.snakeArr.length; i++){
-        //     console.log(this.snakeArr[i].getPos())
-        // }
-        // console.log(this.direction)
     }
 
     addBody(){
@@ -100,7 +96,5 @@ class Snake{
     changeDirection(newDirection){
         this.direction = newDirection;
     }
-
-
 
 }
