@@ -1,0 +1,13 @@
+canvas {
+    border: 1px solid black;
+    display:block;
+    margin: auto;
+}
+
+#example {
+    background-image: "/images/bg.jpg"
+}
+
+#example canvas {
+    opacity: 0.8;
+}
