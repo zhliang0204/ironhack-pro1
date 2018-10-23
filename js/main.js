@@ -28,6 +28,8 @@ var newhead3 = new Image();
 newhead3.src = "/images/head-right.png"
 var newhead4 = new Image();
 newhead4.src = "/images/head-up.png"
+var trunk = new Image();
+trunk.src = "/images/obstacle.png"
 
 
 window.onload = function() {
@@ -38,32 +40,25 @@ window.onload = function() {
             update();
             console.log(timeSpan);
         }, 2000/timeSpan)
-    }
-
-    document.onkeydown = function(e) {
-        var keycode = e.keyCode;
-        // console.log(keycode)
-        snake.dirChage(keycode);
+        document.onkeydown = function(e) {
+            var keycode = e.keyCode;
+            snake.dirChage(keycode);
+        }
     }
 
     autoBtn.onclick = function(){
         drawingFirstElements();
-
+        gameInterval = setInterval(function(){
+            update();
+            chooseDirection();
+        }, 2000/timeSpan)
     }
-
 }
-
 
 // draw the background, snake and apple in the canvas
 function drawBg(){
-    // draw background
- 
         ctx.drawImage(bg, -340, -10, bg.width, bg.height);
         drawGrids()
-
-    // draw snake
-
-    // draw apple
 }
 
 // draw grids of backgrounds
@@ -83,7 +78,6 @@ function drawGrids(){
     }
 }
 
-
 // start game and refresh the page
 function update(){
     ctx.clearRect(0, 0, width, height);
@@ -95,6 +89,7 @@ function update(){
     apple.draw();
     snake.draw();
     scoreDraw();
+    drawObstacles( obstacles);
     
 
     if(snake.eatApp(apple)){
@@ -116,32 +111,67 @@ function scoreDraw(){
 }
 
 // auto choose direction
-// function chooseDirection(){
-//     var dirList = [[1,0],[-1,0],[0,1],[0.-1]];
-//     var appPos = apple.getPos();
-//     var headPos = snake.sArr()[0].getPos();
-//     var curDir = snake.getDirection();
-//     if(headPos[0] == appPos[0]){
-//         if(headPos[1] < appPos[1]){
-//             snake.changeDirection([0,1])
-//         } else {
-//             snake.changeDirection([0,-1])
+function chooseDirection(){
+    var dirList = [[1,0],[-1,0],[0,1],[0,-1]];
+    var curSnake = snake.sArr();
+    var curhead = curSnake[0];
+    var curheadPos = curhead.getPos();
+    var nextPX;
+    var nextPY;
 
-//         }
-//     } else if(headPos[1] == appPos[1]){
-//         if(headPos[0] < appPos[1]){
-//             snake.changeDirection()
-//         }
-//     }
-// }
+    // avoid obstacles
+    var proDirec = [];
+    for(var i = 0; i <dirList.length; i++){
+        nextPX = dirList[i][0] * gridSize + curheadPos[0];
+        nextPY = dirList[i][1] * gridSize + curheadPos[1];  
+        if(isTaken(nextPX, nextPY)) {
+            proDirec.push(dirList[i])
+        }    
+    }
+ 
+    // caculate distance
+    var disToApple = [];
+    var applePos = apple.getPos();
+    var curDist
+    for(var i = 0; i < proDirec.length; i++){
+        nextPX = proDirec[i][0] * gridSize + curheadPos[0];
+        nextPY = proDirec[i][1] * gridSize + curheadPos[1];
+        curDist = Math.abs(nextPX - applePos[0]) + Math.abs(nextPY - applePos[1])
+        
+        disToApple.push(curDist);          
+    }
+    
+    // choose shortest distance
+    var minDist = width;
+    for(var i =0; i < disToApple.length; i++){
+        if (minDist > disToApple[i]){
+            minDist = disToApple[i]
+        }
+    }
+    
+    var finalProPos = [];
+    for(var i = 0; i < proDirec.length; i++){
+        if(disToApple[i] == minDist){
+            finalProPos.push(proDirec[i])
+        }
+    }
+   
+    // // set the direction of snake
+    if (finalProPos.length > 0){
+        snake.changeDirection(finalProPos[0])
+    }
+}
 
 // initial game, when click start button, the snake and apple appears
 function drawingFirstElements(){
     clearInterval(gameInterval);
     score = 0;
     level = 1;
-    timeSpan = 10 *(1 + level)
+    timeSpan = 10 *(1 + level);
+    obstacleNum = 3;
+    obstacles = [];
     snake = new Snake();
+    obstacleGen(obstacleNum, obstacles);
     var pos = randomGenPos(rowSize, colSize, gridSize);
     while(!isTaken(pos[0], pos[1])){
         pos = randomGenPos(rowSize, colSize, gridSize);
@@ -149,8 +179,31 @@ function drawingFirstElements(){
     apple = new Node("/images/apple.png", pos[0], pos[1], gridSize, gridSize);
     apple.draw();
     snake.draw();
+    drawObstacles( obstacles);
 }
 
+// generate obstacles
+function obstacleGen(obstacleNum, obstacles){
+    var genNum = obstacleNum - obstacles.length;
+    var tempObstacle;
+    for(var i = 0; i < genNum; i++){
+        var randomPos = randomGenPos(rowSize, colSize, gridSize)
+        while(!isTaken(randomPos[0], randomPos[1])){
+            randomPos =  randomGenPos(rowSize, colSize, gridSize);
+        }
+        tempObstacle = new Node("/images/obstacle.png", randomPos[0], randomPos[1], gridSize, gridSize);
+        obstacles.push(tempObstacle);
+    }
+}
+
+// draw obstacles
+function drawObstacles( obstacles){
+    for(var i =0 ; i < obstacles.length; i++){
+        obstacles[i].draw();
+    }
+}
+
+// eat apple
 function eatApple() {
     var pos = randomGenPos(rowSize, colSize, gridSize);
     while(!isTaken(pos[0], pos[1])){
@@ -158,13 +211,22 @@ function eatApple() {
     }
     apple = new Node("/images/apple.png", pos[0], pos[1], gridSize, gridSize);
     score += 1;
-    if(score > 10 && score <= 20 ){
-        level += 1;
-        timeSpan = 10 *(1 + level);
-    }
+    updateGrade(score);
+}
+
+// update grade
+function updateGrade(score){
+    if(score > 10 && score < 21){
+        level = 2;
+        timeSpan = 10 * (1 + level);
+        obstacleNum = 6;
+        obstacleGen(obstacleNum, obstacles);
+    } 
     if(score > 20){
-        level += 1;
-        timeSpan = 10 *(1 + level);
+        level = 3;
+        timeSpan = 10 * (1 + level);
+        obstacleNum = 10;
+        obstacleGen(obstacleNum, obstacles);
     }
 }
 
@@ -176,9 +238,10 @@ function randomGenPos(rowSize, colSize, gridSize){
     return [posX, posY];
 }
 
+// return true if not taken
 function isTaken(x, y){
     var flag = true;
-    var curSnakeNodes = snake.sArr();
+    var curSnakeNodes = snake.sArr().concat(obstacles);
     for(var i = 0; i < curSnakeNodes.length; i++){
         var curP = curSnakeNodes[i].getPos();
         if(curP[0] == x && curP[1] == y){
@@ -187,6 +250,8 @@ function isTaken(x, y){
     }
     return flag;
 }
+
+
 
 // stop the game
 function gameOver(){
@@ -200,6 +265,12 @@ function gameOver(){
     for(var i = 1; i < curSnake.length; i++){
         var bodyPos = curSnake[i].getPos();
         if(Math.abs(bodyPos[0] - headPos[0]) < gridSize && Math.abs(bodyPos[1] - headPos[1]) < gridSize){
+            flag = true;
+        }
+    }
+    for(var i = 0 ; i < obstacles.length; i++){
+        var curObstacle = obstacles[i].getPos();
+        if(Math.abs(curObstacle[0] - headPos[0]) < gridSize && Math.abs(curObstacle[1] - headPos[1]) < gridSize){
             flag = true;
         }
     }
