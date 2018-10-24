@@ -48,6 +48,7 @@ window.onload = function() {
             if (pauseBtn.innerText == "Pause"){
                 document.onkeydown = function(e) {
                     var keycode = e.keyCode;
+                    e.preventDefault()
                     snake.dirChage(keycode);
                 }
             }  

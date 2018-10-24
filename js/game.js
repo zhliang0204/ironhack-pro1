@@ -124,8 +124,6 @@ function eatApple() {
     updateLevel(score);
 }
 
-
-
 // stop game
 function gameOver(){
     // get the snake array
