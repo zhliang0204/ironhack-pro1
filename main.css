@@ -1,13 +1,5 @@
 canvas {
-    border: 1px solid black;
+    border: 1px solid darkgreen;
     display:block;
     margin: auto;
-}
-
-#example {
-    background-image: "/images/bg.jpg"
-}
-
-#example canvas {
-    opacity: 0.8;
 }

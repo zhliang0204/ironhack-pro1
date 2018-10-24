@@ -13,7 +13,7 @@ var score = 0;
 var level = 1;
 var timeSpan = 10 *(1 + level);
 var obstacles = [];
-var obstacleNum = 3;
+var obstacleNum = 6;
 
 var autoBtn = document.getElementById("autoBtn");
 var pauseBtn = document.getElementById("pauseBtn");
@@ -42,3 +42,7 @@ gameOverImg.src = "/images/gameover.png"
 
 var gameWinImg = new Image();
 gameWinImg.src = "/images/awesome.png"
+
+// sound for the game
+var eatSound = new Audio("sound/eatw.mp3");
+var collisionSound = new Audio("sound/collide.mp3")

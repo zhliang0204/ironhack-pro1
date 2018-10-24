@@ -39,7 +39,6 @@ class Snake{
     }
 
     update(){
-
         this.addBody();
         // remove the last body node
         this.snakeArr.splice(-1, 1);
@@ -73,7 +72,6 @@ class Snake{
         }
 
         var newhead = new Node( newheadurl, newheadx, newheady, gridSize, gridSize)
-
         // add new add to the first element of the snakeArr
         this.snakeArr.unshift(newhead);
         // change the old head to body
