@@ -1,11 +1,11 @@
 window.onload = function() {
 
 
-canvas = document.querySelector("canvas");
-ctx = canvas.getContext("2d");
-height = ctx.canvas.height;
-width = ctx.canvas.width;
-startBtn = document.getElementById("startBtn");
+// canvas = document.querySelector("canvas");
+// ctx = canvas.getContext("2d");
+// height = ctx.canvas.height;
+// width = ctx.canvas.width;
+// startBtn = document.getElementById("startBtn");
 
 
     // copy from Maxence

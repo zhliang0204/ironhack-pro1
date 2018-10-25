@@ -1,8 +1,14 @@
-var canvas
-var ctx
-var height
-var width
-var startBtn
+// var canvas
+// var ctx
+// var height
+// var width
+var canvas = document.querySelector("canvas");
+var ctx = canvas.getContext("2d");
+var height = ctx.canvas.height;
+var width = ctx.canvas.width;
+var startBtn = document.getElementById("startBtn");
+
+// var startBtn
 var gridSize = 20;
 var colSize = width / gridSize - 1;
 var rowSize = height / gridSize - 1;

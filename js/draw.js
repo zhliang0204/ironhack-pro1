@@ -34,8 +34,9 @@ function drawingFirstElements(){
     var pos = randomGenPos(rowSize, colSize, gridSize);
     while(!isTaken(pos[0], pos[1])){
         pos = randomGenPos(rowSize, colSize, gridSize);
+        console.log(pos)
     }
-    apple = new Node("./images/apple.png", 200,200);
+    apple = new Node("./images/apple.png", pos[0],pos[1]);
     apple.draw();
     snake.draw();
     drawObstacles( obstacles);

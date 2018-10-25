@@ -2,9 +2,9 @@ class Snake{
     constructor(){
         this.snakeArr = [];
         this.direction = [1, 0];
-        var snakeHead = new Node("./images/head-right.png", 9*20, 13*20, gridSize, gridSize);
-        var snakeBody1 = new Node("./images/body.png", 8*20, 13*20, gridSize, gridSize);
-        var snakeBody2 = new Node("./images/body.png", 7*20, 13*20, gridSize, gridSize);
+        var snakeHead = new Node("./images/head-right.png", 9*20, 13*20);
+        var snakeBody1 = new Node("./images/body.png", 8*20, 13*20);
+        var snakeBody2 = new Node("./images/body.png", 7*20, 13*20);
         this.snakeArr.push(snakeHead);
         this.snakeArr.push(snakeBody1);
         this.snakeArr.push(snakeBody2);
@@ -71,11 +71,11 @@ class Snake{
             }
         }
 
-        var newhead = new Node( newheadurl, newheadx, newheady, gridSize, gridSize)
+        var newhead = new Node( newheadurl, newheadx, newheady)
         // add new add to the first element of the snakeArr
         this.snakeArr.unshift(newhead);
         // change the old head to body
-        var newbody = new Node("./images/body.png", oldheadPos[0], oldheadPos[1], gridSize, gridSize)
+        var newbody = new Node("./images/body.png", oldheadPos[0], oldheadPos[1])
         this.snakeArr.splice(1,1,newbody)      
     }
 
