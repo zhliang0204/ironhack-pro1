@@ -59,15 +59,15 @@ class Snake{
         var newheadurl;
         if(this.direction[0] == 0){
             if(this.direction[1] == 1){
-                newheadurl = "https://zhliang0204.github.io/ironhack-pro1/images/head-bottom.png";
+                newheadurl = "/images/head-bottom.png";
             } else {
-                newheadurl = "https://zhliang0204.github.io/ironhack-pro1/images/head-up.png";
+                newheadurl = "/images/head-up.png";
             }
         } else {
             if(this.direction[0] == 1){
-                newheadurl = "https://zhliang0204.github.io/ironhack-pro1/images/head-right.png";
+                newheadurl = "/images/head-right.png";
             } else{
-                newheadurl = "https://zhliang0204.github.io/ironhack-pro1/images/head-left.png";
+                newheadurl = "/images/head-left.png";
             }
         }
 

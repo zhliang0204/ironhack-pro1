@@ -80,6 +80,7 @@ window.onload = function() {
                 return false;
         });
 
+
         gameState = 1;
         drawingFirstElements();
         gameInterval = setInterval(gameUpdate, 2000/timeSpan)
