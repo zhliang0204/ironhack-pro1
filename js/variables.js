@@ -1,14 +1,8 @@
-// var canvas
-// var ctx
-// var height
-// var width
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
 var height = ctx.canvas.height;
 var width = ctx.canvas.width;
 var startBtn = document.getElementById("startBtn");
-
-// var startBtn
 var gridSize = 20;
 var colSize = width / gridSize - 1;
 var rowSize = height / gridSize - 1;
@@ -29,7 +23,7 @@ var gameState = 0;
 var autoBtn = document.getElementById("autoBtn");
 var pauseBtn = document.getElementById("pauseBtn");
 var clearBtn = document.getElementById("clearScore");
-// var bg;
+
 var bg = new Image();
 bg.src = "./images/bg.jpg";
 
@@ -50,7 +44,6 @@ var trunk = new Image();
 trunk.src = "./images/obstacle.png"
 var gameOverImg = new Image();
 gameOverImg.src = "./images/gameover.png"
-
 var gameWinImg = new Image();
 gameWinImg.src = "./images/awesome.png"
 

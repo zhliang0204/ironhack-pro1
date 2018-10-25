@@ -1,13 +1,4 @@
 window.onload = function() {
-
-
-// canvas = document.querySelector("canvas");
-// ctx = canvas.getContext("2d");
-// height = ctx.canvas.height;
-// width = ctx.canvas.width;
-// startBtn = document.getElementById("startBtn");
-
-
     // copy from Maxence
     function goToPage(link){
         $('[data-page]').each(function(){
@@ -32,7 +23,6 @@ window.onload = function() {
      goToPage('home');
     // goToPage('play');
     
-    // Iteration 2: Listen for click events on <a>
     // Hint: event.preventDefault
     $("a").click(function(event){
         event.preventDefault();
@@ -85,11 +75,12 @@ window.onload = function() {
     // auto play
     autoBtn.onclick = function(evt){
         window.addEventListener('keydown', function (event) {
-            event.preventDefault();
+            var keycode = event.keyCode
+            if(keycode === 13 || keycode === 32 || keycode === 37 || keycode === 38 || keycode === 39 || keycode === 40){
+                event.preventDefault();
                 return false;
+            }
         });
-
-
         gameState = 1;
         drawingFirstElements();
         gameInterval = setInterval(gameUpdate, 2000/timeSpan)
@@ -109,6 +100,5 @@ window.onload = function() {
     $("#clearScore").click(function(evt){
         evt.preventDefault()
         storage.clear();
-        console.log("clearScore")
     })
 }

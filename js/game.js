@@ -191,14 +191,14 @@ function scoreStore(){
 
 // update level
 function updateLevel(score){
-    if(score > 10 && score < 21){
+    if(score > 5 && score < 16){
         level = 2;
         timeSpan = 15 * (1 + level);
         obstacleNum = 12;
         obstacleGen(obstacleNum, obstacles);
         return true;
     } 
-    if(score > 20){
+    if(score > 15){
         level = 3;
         timeSpan = 15 * (1 + level);
         obstacleNum = 20;
