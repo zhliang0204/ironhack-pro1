@@ -2,9 +2,9 @@ class Snake{
     constructor(){
         this.snakeArr = [];
         this.direction = [1, 0];
-        var snakeHead = new Node("https://zhliang0204.github.io/ironhack-pro1/images/head-right.png", 9*20, 13*20, gridSize, gridSize);
-        var snakeBody1 = new Node("https://zhliang0204.github.io/ironhack-pro1/images/body.png", 8*20, 13*20, gridSize, gridSize);
-        var snakeBody2 = new Node("https://zhliang0204.github.io/ironhack-pro1/images/body.png", 7*20, 13*20, gridSize, gridSize);
+        var snakeHead = new Node("/images/head-right.png", 9*20, 13*20, gridSize, gridSize);
+        var snakeBody1 = new Node("/images/body.png", 8*20, 13*20, gridSize, gridSize);
+        var snakeBody2 = new Node("/images/body.png", 7*20, 13*20, gridSize, gridSize);
         this.snakeArr.push(snakeHead);
         this.snakeArr.push(snakeBody1);
         this.snakeArr.push(snakeBody2);
