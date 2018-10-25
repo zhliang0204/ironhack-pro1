@@ -90,7 +90,7 @@ function obstacleGen(obstacleNum, obstacles){
         while(!isTaken(randomPos[0], randomPos[1])){
             randomPos =  randomGenPos(rowSize, colSize, gridSize);
         }
-        tempObstacle = new Node("/images/obstacle.png", randomPos[0], randomPos[1], gridSize, gridSize);
+        tempObstacle = new Node("./images/obstacle.png", randomPos[0], randomPos[1], gridSize, gridSize);
         obstacles.push(tempObstacle);
     }
 }
@@ -121,7 +121,7 @@ function eatApple() {
     while(!isTaken(pos[0], pos[1])){
         pos = randomGenPos(rowSize, colSize, gridSize);
     }
-    apple = new Node("/images/apple.png", pos[0], pos[1], gridSize, gridSize);
+    apple = new Node("./images/apple.png", pos[0], pos[1], gridSize, gridSize);
     score += 1;
     if(updateLevel(score)){
         clearInterval(gameInterval);

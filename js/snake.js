@@ -2,9 +2,9 @@ class Snake{
     constructor(){
         this.snakeArr = [];
         this.direction = [1, 0];
-        var snakeHead = new Node("/images/head-right.png", 9*20, 13*20, gridSize, gridSize);
-        var snakeBody1 = new Node("/images/body.png", 8*20, 13*20, gridSize, gridSize);
-        var snakeBody2 = new Node("/images/body.png", 7*20, 13*20, gridSize, gridSize);
+        var snakeHead = new Node("./images/head-right.png", 9*20, 13*20, gridSize, gridSize);
+        var snakeBody1 = new Node("./images/body.png", 8*20, 13*20, gridSize, gridSize);
+        var snakeBody2 = new Node("./images/body.png", 7*20, 13*20, gridSize, gridSize);
         this.snakeArr.push(snakeHead);
         this.snakeArr.push(snakeBody1);
         this.snakeArr.push(snakeBody2);
@@ -59,15 +59,15 @@ class Snake{
         var newheadurl;
         if(this.direction[0] == 0){
             if(this.direction[1] == 1){
-                newheadurl = "/images/head-bottom.png";
+                newheadurl = "./images/head-bottom.png";
             } else {
-                newheadurl = "/images/head-up.png";
+                newheadurl = "./images/head-up.png";
             }
         } else {
             if(this.direction[0] == 1){
-                newheadurl = "/images/head-right.png";
+                newheadurl = "./images/head-right.png";
             } else{
-                newheadurl = "/images/head-left.png";
+                newheadurl = "./images/head-left.png";
             }
         }
 
@@ -75,7 +75,7 @@ class Snake{
         // add new add to the first element of the snakeArr
         this.snakeArr.unshift(newhead);
         // change the old head to body
-        var newbody = new Node("/images/body.png", oldheadPos[0], oldheadPos[1], gridSize, gridSize)
+        var newbody = new Node("./images/body.png", oldheadPos[0], oldheadPos[1], gridSize, gridSize)
         this.snakeArr.splice(1,1,newbody)      
     }
 

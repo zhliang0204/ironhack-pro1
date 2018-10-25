@@ -25,7 +25,7 @@ var pauseBtn = document.getElementById("pauseBtn");
 var clearBtn = document.getElementById("clearScore");
 // var bg;
 var bg = new Image();
-bg.src = "/images/bg.jpg";
+bg.src = "./images/bg.jpg";
 
 // store players score
 var storage = window.localStorage;
@@ -33,21 +33,21 @@ var storage = window.localStorage;
 // var count = 0;
 
 var newhead1 = new Image();
-newhead1.src = "/images/head-bottom.png"
+newhead1.src = "./images/head-bottom.png"
 var newhead2 = new Image();
-newhead2.src = "/images/head-left.png"
+newhead2.src = "./images/head-left.png"
 var newhead3 = new Image();
-newhead3.src = "/images/head-right.png"
+newhead3.src = "./images/head-right.png"
 var newhead4 = new Image();
-newhead4.src = "/images/head-up.png"
+newhead4.src = "./images/head-up.png"
 var trunk = new Image();
-trunk.src = "/images/obstacle.png"
+trunk.src = "./images/obstacle.png"
 var gameOverImg = new Image();
-gameOverImg.src = "/images/gameover.png"
+gameOverImg.src = "./images/gameover.png"
 
 var gameWinImg = new Image();
-gameWinImg.src = "/images/awesome.png"
+gameWinImg.src = "./images/awesome.png"
 
 // sound for the game
-var eatSound = new Audio("/sound/eatw.mp3");
-var collisionSound = new Audio("sound/collide.mp3")
+var eatSound = new Audio("./sound/eatw.mp3");
+var collisionSound = new Audio("./sound/collide.mp3")
