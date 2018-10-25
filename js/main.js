@@ -37,19 +37,19 @@ window.onload = function() {
     // draw background of the game
     drawBg();
     // start/stop game
-    startBtn.onclick = function(){
+    startBtn.onclick = function(evt){
+        gameState = 0;
+        evt.preventDefault()
         if(startBtn.innerText == "Start Game"){
             startBtn.innerText = "Stop Game" 
             drawingFirstElements();
-            gameInterval = setInterval(function(){
-                update();
-            }, 2000/timeSpan)
+            gameInterval = setInterval(gameUpdate, 2000/timeSpan)
 
             if (pauseBtn.innerText == "Pause"){
                 document.onkeydown = function(e) {
                     var keycode = e.keyCode;
-                    e.preventDefault()
                     snake.dirChage(keycode);
+                    e.preventDefault()
                 }
             }  
         } else {
@@ -59,7 +59,8 @@ window.onload = function() {
     }
 
     // pause/stop game
-    pauseBtn.onclick = function(){
+    pauseBtn.onclick = function(evt){
+        evt.preventDefault()
         if(startBtn.innerText == "Stop Game"){
             if(pauseBtn.innerText == "Pause"){
                 pauseBtn.innerText = "Continue";
@@ -67,21 +68,21 @@ window.onload = function() {
             } else {
                 clearInterval(gameInterval);
                 pauseBtn.innerText = "Pause";
-                gameInterval = setInterval(function(){
-                    update();
-                    console.log(timeSpan);
-                }, 2000/timeSpan)                   
+                gameInterval = setInterval(gameUpdate, 2000/timeSpan)
             }
         }
     }
 
     // auto play
-    autoBtn.onclick = function(){
+    autoBtn.onclick = function(evt){
+        window.addEventListener('keydown', function (event) {
+            event.preventDefault();
+                return false;
+        });
+
+        gameState = 1;
         drawingFirstElements();
-        gameInterval = setInterval(function(){
-            update();
-            chooseDirection();
-        }, 2000/timeSpan)
+        gameInterval = setInterval(gameUpdate, 2000/timeSpan)
     }
 
     // score list part
@@ -95,7 +96,9 @@ window.onload = function() {
         ul.append(curli);
     }
 
-    $("#clearScore").click(function(){
+    $("#clearScore").click(function(evt){
+        evt.preventDefault()
         storage.clear();
+        console.log("clearScore")
     })
 }

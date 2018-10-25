@@ -18,11 +18,13 @@ function update(){
     }
     if(gameOver()){
         collisionSound.play();
+        scoreStore()
         clearGame();
         ctx.drawImage(gameOverImg, 0, 0, width, height)
     }
 
     if(winGame()){
+        scoreStore()
         clearGame();
         ctx.drawImage(gameWinImg, 0, 0, width, height)       
     }
@@ -88,7 +90,7 @@ function obstacleGen(obstacleNum, obstacles){
         while(!isTaken(randomPos[0], randomPos[1])){
             randomPos =  randomGenPos(rowSize, colSize, gridSize);
         }
-        tempObstacle = new Node("/images/obstacle.png", randomPos[0], randomPos[1], gridSize, gridSize);
+        tempObstacle = new Node("https://zhliang0204.github.io/ironhack-pro1/images/obstacle.png", randomPos[0], randomPos[1], gridSize, gridSize);
         obstacles.push(tempObstacle);
     }
 }
@@ -119,9 +121,22 @@ function eatApple() {
     while(!isTaken(pos[0], pos[1])){
         pos = randomGenPos(rowSize, colSize, gridSize);
     }
-    apple = new Node("/images/apple.png", pos[0], pos[1], gridSize, gridSize);
+    apple = new Node("https://zhliang0204.github.io/ironhack-pro1/images/apple.png", pos[0], pos[1], gridSize, gridSize);
     score += 1;
-    updateLevel(score);
+    if(updateLevel(score)){
+        clearInterval(gameInterval);
+
+        gameInterval = setInterval(gameUpdate, 2000/timeSpan)
+
+    };
+}
+
+// game update
+function gameUpdate(){
+    update();
+    if(gameState == 1){
+        chooseDirection();
+    }
 }
 
 // stop game
@@ -151,7 +166,7 @@ function gameOver(){
 
 // win game
 function winGame(){
-    if (score == 41){
+    if (score == 40){
         return true;
     } 
     return false;
@@ -162,13 +177,16 @@ function clearGame(){
     startBtn.innerText = "Start Game";
     pauseBtn.innerText = "Pause";
     ctx.clearRect(0, 0, width, height);
+    // score = 0;
+    scoreDraw();   
+}
 
+// score storage
+function scoreStore(){
     if(storage.length < 10){
         var counter = storage.length + 1;
         storage.setItem("player" + counter , JSON.stringify(score))
     } 
-    score = 0;
-    scoreDraw();   
 }
 
 // update level
@@ -178,11 +196,14 @@ function updateLevel(score){
         timeSpan = 15 * (1 + level);
         obstacleNum = 12;
         obstacleGen(obstacleNum, obstacles);
+        return true;
     } 
     if(score > 20){
         level = 3;
-        timeSpan = 20 * (1 + level);
+        timeSpan = 15 * (1 + level);
         obstacleNum = 20;
         obstacleGen(obstacleNum, obstacles);
+        return true;
     }
+    return false;
 }
