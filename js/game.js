@@ -19,14 +19,6 @@ function update(){
         snake.update()
     }
     if(gameOver()){
-        // console.log("snake head " + snake.sArr()[0].getPos())
-        for(var i = 0; i < obstacles.length; i++){
-            console.log("obstacle " + i + " " + obstacles[i].getPos())
-        }
-        for(var j =0; j < snake.sArr().length; j++){
-            console.log("snakes " + j + " " + snake.sArr()[j].getPos())
-        }
-        
         collisionSound.play();
         scoreStore()
         clearGame();
@@ -84,8 +76,6 @@ function chooseDirection(){
             finalProPos.push(proDirec[i])
         }
     }
-
-    console.log("1:oldsnakeDir: " + snake.getDirection());
    
     // set the direction of snake
     if (finalProPos.length > 0){
@@ -93,15 +83,6 @@ function chooseDirection(){
         var nextId = Math.floor(Math.random()*size);
         snake.changeDirection(finalProPos[nextId])
     }
-
-    console.log("2:proDire: " + proDirec);
-    console.log("3:disToApple: " + disToApple);
-    console.log("4:applePos: " + applePos);
-    console.log("5:finalProPos: "+ finalProPos);
-    console.log("6:newsnakeDir: " + snake.getDirection());
-    console.log("7:snakeHead:" + curheadPos);
-    // console.log("newsankeHead:" + curheadPos);
-
 }
 
 // generate obstacles
@@ -128,9 +109,7 @@ function randomGenPos(rowSize, colSize, gridSize){
 // return true if not taken
 function isTaken(x, y){
     var flag = true;
-    // var curSnakeNodes = snake.sArr().concat(obstacles);
     var curSnakeNodes = obstacles.concat(snake.sArr());
-
     for(var i = 0; i < curSnakeNodes.length - 1; i++){
         var curP = curSnakeNodes[i].getPos();
         if(curP[0] == x && curP[1] == y){
@@ -190,9 +169,6 @@ function gameOver(){
             targetObs = curObstacle;
         }
     }
-    if (targetObs != undefined){
-    console.log("targetObs" + targetObs);
-    console.log("headPos" + headPos);}
     return flag;
 }
 
