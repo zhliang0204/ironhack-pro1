@@ -60,7 +60,7 @@ window.onload = function() {
     // pause/stop game
     pauseBtn.onclick = function(evt){
         evt.preventDefault()
-        if(startBtn.innerText == "Stop Game"){
+        // if(startBtn.innerText == "Stop Game"){
             if(pauseBtn.innerText == "Pause"){
                 pauseBtn.innerText = "Continue";
                 clearInterval(gameInterval);
@@ -69,7 +69,7 @@ window.onload = function() {
                 pauseBtn.innerText = "Pause";
                 gameInterval = setInterval(gameUpdate, 2000/timeSpan)
             }
-        }
+        // }
     }
 
     // auto play

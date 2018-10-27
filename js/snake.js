@@ -50,8 +50,8 @@ class Snake{
         // get the direction of the snake;
         var oldhead = this.snakeArr[0]
         var oldheadPos = oldhead.getPos();
-        var newheadx = oldheadPos[0] + this.direction[0] * 20;
-        var newheady = oldheadPos[1] + this.direction[1] * 20;
+        var newheadx = oldheadPos[0] + this.direction[0] * gridSize;
+        var newheady = oldheadPos[1] + this.direction[1] * gridSize;
         if(newheadx < 0){newheadx = gridSize * colSize;}
         if(newheadx > gridSize * colSize) {newheadx = 0;}
         if(newheady < 0){newheady = gridSize * rowSize;}
@@ -81,9 +81,14 @@ class Snake{
 
     eatApp(apple){
         var curhead = this.snakeArr[0];
-        if((Math.abs(curhead.getPos()[0] - apple.getPos()[0]) < gridSize) && (Math.abs(curhead.getPos()[1] - apple.getPos()[1]) < gridSize) ){
-            return true;
-        } 
+        // if((Math.abs(curhead.getPos()[0] - apple.getPos()[0]) <= gridSize) && (Math.abs(curhead.getPos()[1] - apple.getPos()[1]) <= gridSize) ){
+        //     return true;
+        // } 
+        // return false
+        var appPos = apple.getPos();
+        if(Math.floor(((curhead.getPos()[0] + this.direction[0] * gridSize + width) % width) == appPos[0]) && Math.floor(((curhead.getPos()[1] + this.direction[1] * gridSize + height) % height) == appPos[1])){
+            return true
+        }
         return false
     }
 

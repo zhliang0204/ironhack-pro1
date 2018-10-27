@@ -2,7 +2,7 @@
 function update(){
     ctx.clearRect(0, 0, width, height);
     //update
-    snake.update();
+    // snake.update();
     
     //draw 
     drawBg();
@@ -15,8 +15,18 @@ function update(){
         snake.addBody();
         eatApple();
         eatSound.play();
+    } else {
+        snake.update()
     }
     if(gameOver()){
+        // console.log("snake head " + snake.sArr()[0].getPos())
+        for(var i = 0; i < obstacles.length; i++){
+            console.log("obstacle " + i + " " + obstacles[i].getPos())
+        }
+        for(var j =0; j < snake.sArr().length; j++){
+            console.log("snakes " + j + " " + snake.sArr()[j].getPos())
+        }
+        
         collisionSound.play();
         scoreStore()
         clearGame();
@@ -61,7 +71,7 @@ function chooseDirection(){
     }
     
     // choose shortest distance
-    var minDist = width;
+    var minDist = width + height;
     for(var i =0; i < disToApple.length; i++){
         if (minDist > disToApple[i]){
             minDist = disToApple[i]
@@ -74,11 +84,24 @@ function chooseDirection(){
             finalProPos.push(proDirec[i])
         }
     }
+
+    console.log("1:oldsnakeDir: " + snake.getDirection());
    
     // set the direction of snake
     if (finalProPos.length > 0){
-        snake.changeDirection(finalProPos[0])
+        var size = finalProPos.length;
+        var nextId = Math.floor(Math.random()*size);
+        snake.changeDirection(finalProPos[nextId])
     }
+
+    console.log("2:proDire: " + proDirec);
+    console.log("3:disToApple: " + disToApple);
+    console.log("4:applePos: " + applePos);
+    console.log("5:finalProPos: "+ finalProPos);
+    console.log("6:newsnakeDir: " + snake.getDirection());
+    console.log("7:snakeHead:" + curheadPos);
+    // console.log("newsankeHead:" + curheadPos);
+
 }
 
 // generate obstacles
@@ -105,8 +128,10 @@ function randomGenPos(rowSize, colSize, gridSize){
 // return true if not taken
 function isTaken(x, y){
     var flag = true;
-    var curSnakeNodes = snake.sArr().concat(obstacles);
-    for(var i = 0; i < curSnakeNodes.length; i++){
+    // var curSnakeNodes = snake.sArr().concat(obstacles);
+    var curSnakeNodes = obstacles.concat(snake.sArr());
+
+    for(var i = 0; i < curSnakeNodes.length - 1; i++){
         var curP = curSnakeNodes[i].getPos();
         if(curP[0] == x && curP[1] == y){
             flag = false;
@@ -133,10 +158,11 @@ function eatApple() {
 
 // game update
 function gameUpdate(){
-    update();
+    // update();
     if(gameState == 1){
         chooseDirection();
     }
+    update();
 }
 
 // stop game
@@ -145,6 +171,7 @@ function gameOver(){
     var curSnake = snake.sArr();
     var curhead = curSnake[0];
     var headPos = curhead.getPos();
+    var targetObs;
     
     // collide itself
     var flag = false;
@@ -152,6 +179,7 @@ function gameOver(){
         var bodyPos = curSnake[i].getPos();
         if(Math.abs(bodyPos[0] - headPos[0]) < gridSize && Math.abs(bodyPos[1] - headPos[1]) < gridSize){
             flag = true;
+            targetObs = bodyPos;
         }
     }
     // collide with obstacles
@@ -159,14 +187,18 @@ function gameOver(){
         var curObstacle = obstacles[i].getPos();
         if(Math.abs(curObstacle[0] - headPos[0]) < gridSize && Math.abs(curObstacle[1] - headPos[1]) < gridSize){
             flag = true;
+            targetObs = curObstacle;
         }
     }
+    if (targetObs != undefined){
+    console.log("targetObs" + targetObs);
+    console.log("headPos" + headPos);}
     return flag;
 }
 
 // win game
 function winGame(){
-    if (score == 40){
+    if (score == 50){
         return true;
     } 
     return false;
@@ -193,15 +225,15 @@ function scoreStore(){
 function updateLevel(score){
     if(score > 5 && score < 16){
         level = 2;
-        timeSpan = 15 * (1 + level);
-        obstacleNum = 12;
+        timeSpan = 10 * (1 + level);
+        obstacleNum = 15;
         obstacleGen(obstacleNum, obstacles);
         return true;
     } 
     if(score > 15){
         level = 3;
-        timeSpan = 15 * (1 + level);
-        obstacleNum = 20;
+        timeSpan = 10 * (1 + level);
+        obstacleNum = 25;
         obstacleGen(obstacleNum, obstacles);
         return true;
     }
